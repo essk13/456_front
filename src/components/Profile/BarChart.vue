@@ -6,7 +6,7 @@ export default {
   extends: Bar,
   data() {
     return {
-      cdata: null,
+      cdata: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       datacollection: {
         labels: ['모험', '판타지', '애니메이션', '드라마', '공포', '액션', '서부', '스릴러', '범죄', '다큐멘터리', 'SF', '미스터리', '음악', '로맨스', '가족', '전쟁', 'TV영화'],
         datasets: [
