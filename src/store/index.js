@@ -209,7 +209,6 @@ export default new Vuex.Store({
       axios({
         method: 'get',
         url:`${SERVER_URL}/movies/movie_list/`,
-      
       })
         .then(res => {
           console.log(res)

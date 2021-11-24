@@ -23,7 +23,7 @@
 
                 <div v-else-if="loginUser.profile_photo" class="profile-preview-box">
                   <a>
-                    <img :src="`http://127.0.0.1:8000${loginUser.profile_photo}`" class="profile-image">
+                    <img :src="`https://456pjt.s3.ap-northeast-2.amazonaws.com/media/${loginUser.profile_photo}`" class="profile-image">
                   </a>
                 </div>
 

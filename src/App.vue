@@ -32,7 +32,7 @@
       <span v-if="isLogin" class="flex-l">
         <a class="nav-link" @click.prevent="moveProfile">
           <div v-if="loginUser.profile_photo" class="profile-box">
-            <img :src="`http://127.0.0.1:8000${loginUser.profile_photo}`" class="profile-image">
+            <img :src="`https://456pjt.s3.ap-northeast-2.amazonaws.com/media/${loginUser.profile_photo}`" class="profile-image">
           </div>
           <v-avatar v-else class="profile-photo">
             <v-icon style="color: black;" >
@@ -41,7 +41,7 @@
           </v-avatar>
         </a>
 
-        <a v-if="loginUser.is_staff" href="http://127.0.0.1:8000/admin/" class="admin-text">관리자 페이지</a>
+        <a v-if="loginUser.is_staff" href="http://pjt456.herokuapp.com/admin/" class="admin-text">관리자 페이지</a>
 
         <router-link class="nav-link" to="#" @click.native="logout">로그아웃</router-link>
       </span>
