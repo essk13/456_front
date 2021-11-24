@@ -73,7 +73,7 @@
 import axios from 'axios'
 import { mapState } from 'vuex'
 
-const SERVER_URL = process.env.VUE_APP_SERVER_URL
+const SERVER_URL = 'https://pjt456.herokuapp.com'
 
 export default {
   name: 'Signup',
