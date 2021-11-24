@@ -16,7 +16,7 @@
             >
               <div>
                 <p class="movie-card-title">{{ review.title }}</p>
-                <p class="movie-card-title"><i class="fas fa-star fa-xs"></i> {{ review.rank }}</p>
+                <p class="movie-card-title"><i class="fas fa-star fa-xs"></i> {{ review.rank * 2 }}</p>
               </div>
             </div>
           </v-expand-transition>

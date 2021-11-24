@@ -221,7 +221,7 @@
                         size="18"
                         width="100px"
                       ></v-rating>
-                      <p class="d-d">{{ review.rank }}</p>
+                      <p class="d-d">{{ review.rank * 2 }}</p>
                     </div>
 
                     <div class="flex">

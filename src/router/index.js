@@ -16,6 +16,7 @@ import UserCollection from '../views/UserCollection'
 import TimeLine from '../views/TimeLine'
 import UserProfile from '../views/UserProfile'
 import UserProfileUpdate from '../views/UserProfileUpdate'
+import PasswordChange from '../views/PasswordChange'
 import Signup from '../views/Signup'
 import Login from '../views/Login'
 
@@ -91,6 +92,11 @@ const routes = [
     path: '/accounts/:username/profile_update',
     name: 'UserProfileUpdate',
     component: UserProfileUpdate
+  },
+  {
+    path: '/accounts/PasswordChange',
+    name: 'PasswordChange',
+    component: PasswordChange
   },
   {
     path: '/accounts/signup',

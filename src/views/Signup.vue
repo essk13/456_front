@@ -15,7 +15,7 @@
         <div class="signup-part">
           <div class="signup-input">
             <img id="main-logo" class="login-logo" src="@/assets/logo@3x.png">
-            <h2>Create an account</h2>
+            <h2 class="mb-3">Create an account</h2>
             <p>{{ errMsg }}</p>
             <div>
               <v-text-field

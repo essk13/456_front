@@ -5,7 +5,7 @@
         cols="4"
       >
         <v-row class="profile-back-img">
-          <v-col cols="4">
+          <v-col cols="5">
             <div v-if="loginUser.profile_photo" class="profile-image-box">
               <a>
                 <img :src="`${personData.profile_photo}`" class="profile-image">
@@ -13,9 +13,9 @@
             </div>
           </v-col>
 
-          <v-col cols="8" class="profile-description">
+          <v-col cols="7" class="profile-description">
             <div class="flex-l">
-              <p class="profile-description-t">{{ personData.username }}</p>
+              <p class="profile-description-t">{{ personData.name }}</p>
               <span v-if="personData.username == loginUser.username"></span>
 
               <span v-else-if="personFollowersUsername.includes(loginUser.username)">
@@ -48,7 +48,7 @@
                 프로필 수정
               </a>
             </div>
-            <p>e-mail: {{ personData.email }}</p>
+            <p>{{ personData.email }}</p>
 
             <div class="profile-follow">
               <span>
@@ -56,31 +56,54 @@
                 <p>팔로워: {{ personFollowers.length }}</p>
               </span>
             </div>
+
+            <div class="flex-l mt-3">
+              <div class="vote-btn site_color">
+                <v-icon color="grey lighten-5" small>mdi-thumb-up</v-icon>
+              </div>
+              <p class="profile-like-cnt d-d ml-2 mr-3">{{ this.likeCnt }}</p>
+
+              <div class="vote-btn site_color">
+                <v-icon color="grey lighten-5" small>mdi-bookmark-multiple</v-icon>
+              </div>
+              <p class="profile-like-cnt d-d ml-2 mr-3">{{ this.personData.like_movies.length }}</p>
+
+              <div class="vote-btn site_color">
+                <v-icon color="grey lighten-5" small>mdi-comment-text-multiple</v-icon>
+              </div>
+              <p class="profile-like-cnt d-d ml-2 mr-3">{{ this.userReviews.length }}</p>
+            </div>
           </v-col>
 
           <v-col cols="12">
-            <v-btn
-              rounded
-              @click="moveCollection"
-              height="24"
-              class="profile-collection-btn site_color mr-5"
-            >
-              컬렉션
-            </v-btn>
-            <v-btn
-              rounded
-              height="24"
-              class="profile-collection-btn site_color"
-              @click="moveTimeline"
-            >
-              Timeline
-            </v-btn>
+            <div class="flex-bt">
+              <p class="profile-user-id ml-2">{{ personData.username }} - No.{{ userNum }}</p>
+
+              <div>
+                <v-btn
+                  rounded
+                  @click="moveCollection"
+                  height="24"
+                  class="profile-collection-btn site_color mr-5"
+                >
+                  컬렉션
+                </v-btn>
+                <v-btn
+                  rounded
+                  height="24"
+                  class="profile-collection-btn site_color"
+                  @click="moveTimeline"
+                >
+                  Timeline
+                </v-btn>
+              </div>
+            </div>
           </v-col>
         </v-row>
 
-        <v-container class="mt-16 text-left">
+        <v-container class="mt-10 text-left">
           <div>
-            <h4>{{ personData.username }}'s Review Movie</h4>
+            <h4>{{ personData.username }}'s Reviews</h4>
           </div>
           <v-row v-if="personData">
               <review-card
@@ -98,7 +121,7 @@
         cols="8"
         class="chart-part"
       >
-        <bar-chart></bar-chart>
+        <bar-chart style="height: 300px;"></bar-chart>
 
         <v-container>
           <div>
@@ -140,6 +163,8 @@ export default {
       notifications: false,
       sound: true,
       widgets: false,
+      likeCnt: 0,
+      userNum: null,
     }
   },
   methods: {
@@ -177,6 +202,14 @@ export default {
     this.$store.dispatch('getUser', this.thisUsername)
     this.$store.dispatch('getPersonFollowings', this.thisUsername)
     this.$store.dispatch('getPersonFollowers', this.thisUsername)
+    this.likeCnt = this.userReviews.reduce((acc, review) => {
+      return acc + review.users_like.length
+    }, 0)
+    if (String(this.personData.id).length >= 3) {
+      this.userNum = this.personData.id
+    } else {
+      this.userNum = new Array(3-String(this.personData.id).length+1).join('0')+String(this.personData.id);//남는 길이만큼 0으로 채움
+    }
   },
   watch: {
     $route () {
@@ -195,7 +228,7 @@ export default {
 <style>
 .profile-image-box {
   width: 100%;
-  height: 100%;
+  height: 200px;
   border-radius: 5px;
   overflow: hidden;
   box-shadow: 0px 4px 2px -2px rgb(0 0 0 / 20%), 0px 3px 3px 0px rgb(0 0 0 / 14%), 0px 2px 6px 0px rgb(0 0 0 / 12%);
@@ -299,5 +332,15 @@ export default {
 
 .chart-part {
   padding-top: 0 !important;
+}
+
+.profile-like-cnt {
+  color: white;
+  font-size: 15px;
+}
+
+.profile-user-id {
+  color: white;
+  font-size: 20px;
 }
 </style>

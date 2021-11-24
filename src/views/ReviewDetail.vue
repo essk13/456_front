@@ -24,7 +24,7 @@
                   half-increments
                   large
                 ></v-rating>
-                <p class="d-d mr-3">{{ nowReview.rank }}</p>
+                <p class="d-d mr-3">{{ nowReview.rank * 2 }}</p>
 
                 <div class="flex-l">
                   <span v-if="loginUser">

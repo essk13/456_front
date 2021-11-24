@@ -6,7 +6,7 @@
         <div class="login-part">
           <div class="login-input">
             <img id="main-logo" class="login-logo" src="@/assets/logo@3x.png">
-            <h2 class="login-title">Sign In</h2>
+            <h2 class="login-title mb-3">Sign In</h2>
             <p>{{ errMsg }}</p>
             <div>
               <v-text-field
@@ -73,6 +73,7 @@ export default {
     },
     forgotPassword () {
       alert('명함을 잃어버린 사람은 출입하실 수 없습니다\n명함을 새로 발급받으세요')
+      this.$router.push({ name: 'PasswordChange' })
     },
     moveSignUp () {
       this.$router.push({ name: 'Signup' })

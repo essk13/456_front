@@ -46,7 +46,7 @@
 <script>
 import VueScratchable from 'vue-scratchable';
 import { mapState } from 'vuex';
-import businesscard from '@/assets/businesscard.png'
+import dalgona from '@/assets/dalgona.png'
 
 export default {
   name: 'Lottery',
@@ -59,7 +59,7 @@ export default {
       percentage: 0,
       hide: {
         type: 'pattern',
-        src: businesscard,
+        src: dalgona,
         repeat: 'repeat',
       },
       brush: {

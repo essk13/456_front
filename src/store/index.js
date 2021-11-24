@@ -45,6 +45,7 @@ export default new Vuex.Store({
     videoId: null,
     recommendMovies: null,
     chartdata: null,
+    isChangePassword: false,
   },
   mutations: {
     ERR_MSG (state, err) {
@@ -179,6 +180,9 @@ export default new Vuex.Store({
     },
     GET_CHART_DATA (state, data) {
       state.chartdata = data
+    },
+    CHANGE_PASSWORD (state) {
+      state.isChangePassword = !state.isChangePassword
     }
   },
   actions: {
@@ -732,6 +736,21 @@ export default new Vuex.Store({
         .catch(err => {
           console.log(err)
         })
+    },
+    changePassword ({ commit }, data) {
+      const username = data.username
+      delete data.username
+      console.log(data)
+      axios({
+        method: 'put',
+        data: data,
+        url: `${SERVER_URL}/accounts/${username}/password_chg/`,
+      })
+        .then(res => {
+          console.log(res)
+          commit('CHANGE_PASSWORD')
+      })
+        .catch(err => console.log(err))
     }
   },
 })

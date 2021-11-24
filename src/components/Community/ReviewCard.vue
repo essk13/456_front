@@ -99,6 +99,9 @@ export default {
 }
 
 .vote-btn {
+  width: 24px;
+  height: 24px;
   border-radius: 70%;
+  text-align: center;
 }
 </style>
