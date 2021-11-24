@@ -56,6 +56,7 @@ export default {
     ])
   },
   created () {
+    console.log(this.personData.username)
     this.$store.dispatch('getChartData', this.personData.username)
   },
   mounted() {
@@ -63,7 +64,9 @@ export default {
   },
   watch: {
     chartdata () {
+      console.log(this.cdata)
       this.cdata = this.chartdata
+      console.log(this.cdata)
       this.datacollection['datasets'][0]['data'] = this.cdata
       this.renderChart(this.datacollection, this.options)
     },
