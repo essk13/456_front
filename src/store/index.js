@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 
 import axios from 'axios'
 import _ from 'lodash'
-const SERVER_URL = process.env.VUE_APP_SERVER_URL
+const SERVER_URL = 'https://pjt456.herokuapp.com'
 const API_URL = process.env.VUE_APP_API_URL
 const API_KEY = process.env.VUE_APP_API_KEY
 
