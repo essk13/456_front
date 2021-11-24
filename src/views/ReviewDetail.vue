@@ -200,7 +200,7 @@ export default {
 }
 
 .review-detail-space {
-  height: 30%;
+  height: 130px;
 }
 
 .review-detail-main {

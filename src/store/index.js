@@ -13,7 +13,7 @@ export default new Vuex.Store({
   state: {
     errMsg: null,
     isLogin: false,
-    loginUser: null,
+    loginUser: {username: '--'},
     movieList: null,
     isSignup: false,
     genreList: null,

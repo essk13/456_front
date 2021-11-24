@@ -6,7 +6,7 @@
       >
         <v-row class="profile-back-img">
           <v-col cols="5">
-            <div v-if="loginUser.profile_photo" class="profile-image-box">
+            <div v-if="personData.profile_photo" class="profile-image-box">
               <img :src="`${personData.profile_photo}`" class="profile-image">
             </div>
 
