@@ -32,7 +32,7 @@
       <span v-if="isLogin" class="flex-l">
         <a class="nav-link" @click.prevent="moveProfile">
           <div v-if="loginUser.profile_photo" class="profile-box">
-            <img :src="`https://456pjt.s3.ap-northeast-2.amazonaws.com/media/${loginUser.profile_photo}`" class="profile-image">
+            <img :src="`${loginUser.profile_photo}`" class="profile-image">
           </div>
           <v-avatar v-else class="profile-photo">
             <v-icon style="color: black;" >

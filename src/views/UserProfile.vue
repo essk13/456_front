@@ -8,7 +8,7 @@
           <v-col cols="4">
             <div v-if="loginUser.profile_photo" class="profile-image-box">
               <a>
-                <img :src="`https://456pjt.s3.ap-northeast-2.amazonaws.com/media/${personData.profile_photo}`" class="profile-image">
+                <img :src="`${personData.profile_photo}`" class="profile-image">
               </a>
             </div>
           </v-col>
