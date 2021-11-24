@@ -46,6 +46,7 @@ export default new Vuex.Store({
     recommendMovies: null,
     chartdata: null,
     isChangePassword: false,
+    userNum: null,
   },
   mutations: {
     ERR_MSG (state, err) {
@@ -95,6 +96,11 @@ export default new Vuex.Store({
     },
     GET_USER (state, data) {
       state.personData = data
+      if (String(data.id).length >= 3) {
+        state.userNum = data.id
+      } else {
+        state.userNum = new Array(3-String(data.id).length+1).join('0')+String(data.id);
+      }
     },
     GET_USER_REVIEWS (state, data) {
       state.userReviews = data

@@ -7,14 +7,11 @@
         <v-row class="profile-back-img">
           <v-col cols="5">
             <div v-if="loginUser.profile_photo" class="profile-image-box">
-              <a>
-                <img :src="`${personData.profile_photo}`" class="profile-image">
-              </a>
+              <img :src="`${personData.profile_photo}`" class="profile-image">
             </div>
+
             <div v-else class="profile-image-box">
-              <a>
-                <img src="@/assets/non_profile.png" class="profile-image">
-              </a>
+              <img src="@/assets/non_profile.png" class="profile-image">
             </div>
           </v-col>
 
@@ -169,7 +166,6 @@ export default {
       sound: true,
       widgets: false,
       likeCnt: 0,
-      userNum: null,
     }
   },
   methods: {
@@ -196,11 +192,8 @@ export default {
       'personFollowers',
       'personFollowersUsername',
       'chartdata',
+      'userNum',
     ]),
-    profileBackImg () {
-      return {
-      };
-    }
   },
   created () {
     this.$store.dispatch('getLoginUser')
@@ -210,11 +203,6 @@ export default {
     this.likeCnt = this.userReviews.reduce((acc, review) => {
       return acc + review.users_like.length
     }, 0)
-    if (String(this.personData.id).length >= 3) {
-      this.userNum = this.personData.id
-    } else {
-      this.userNum = new Array(3-String(this.personData.id).length+1).join('0')+String(this.personData.id);//남는 길이만큼 0으로 채움
-    }
   },
   watch: {
     $route () {
