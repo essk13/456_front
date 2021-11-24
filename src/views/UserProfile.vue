@@ -1,0 +1,308 @@
+<template>
+  <v-container class="profile-page">
+    <v-row>
+      <v-col
+        cols="4"
+      >
+        <v-row class="profile-back-img">
+          <v-col cols="4">
+            <div v-if="loginUser.profile_photo" class="profile-image-box">
+              <a>
+                <img :src="`http://127.0.0.1:8000${personData.profile_photo}`" class="profile-image">
+              </a>
+            </div>
+          </v-col>
+
+          <v-col cols="8" class="profile-description">
+            <div class="flex-l">
+              <p class="profile-description-t">{{ personData.username }}</p>
+              <span v-if="personData.username == loginUser.username"></span>
+
+              <span v-else-if="personFollowersUsername.includes(loginUser.username)">
+                <button
+                  @click="follow"
+                  class="follow-btn ml-5"
+                >
+                  <v-icon color="grey lighten-5">
+                    mdi-account-check
+                  </v-icon>
+                </button>
+              </span>
+
+              <span v-else>
+                <button
+                  @click="follow"
+                  height="24"
+                  class="follow-btn ml-5"
+                >
+                  <v-icon color="grey lighten-5">
+                    mdi-account-plus-outline
+                  </v-icon>
+                </button>
+              </span>
+              <a
+                v-if="personData.username === loginUser.username"
+                @click.prevent="moveProfileUpdate"
+                class="profile-edit-btn ml-5"
+              >
+                프로필 수정
+              </a>
+            </div>
+            <p>e-mail: {{ personData.email }}</p>
+
+            <div class="profile-follow">
+              <span>
+                <p>팔로잉: {{ personFollowings.length }}</p>
+                <p>팔로워: {{ personFollowers.length }}</p>
+              </span>
+            </div>
+          </v-col>
+
+          <v-col cols="12">
+            <v-btn
+              rounded
+              @click="moveCollection"
+              height="24"
+              class="profile-collection-btn site_color mr-5"
+            >
+              컬렉션
+            </v-btn>
+            <v-btn
+              rounded
+              height="24"
+              class="profile-collection-btn site_color"
+              @click="moveTimeline"
+            >
+              Timeline
+            </v-btn>
+          </v-col>
+        </v-row>
+
+        <v-container class="mt-16 text-left">
+          <div>
+            <h4>{{ personData.username }}'s Review Movie</h4>
+          </div>
+          <v-row v-if="personData">
+              <review-card
+                v-for="review in personData.review_author.slice(-9, personData.review_author.length)"
+                :key="review.id"
+                :review="review"
+                class="collections"
+              >
+              </review-card>
+          </v-row>
+        </v-container>
+      </v-col>
+
+      <v-col
+        cols="8"
+        class="chart-part"
+      >
+        <bar-chart></bar-chart>
+
+        <v-container>
+          <div>
+            <h4>{{ personData.username }}'s Like Movie</h4>
+          </div>
+          <v-row v-if="personData">
+              <like-movie-card
+                v-for="like_movie in personData.like_movies.slice(-18, personData.like_movies.length)"
+                :key="like_movie.id"
+                :like_movie="like_movie"
+                class="collections"
+              >
+              </like-movie-card>
+          </v-row>
+        </v-container>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<script>
+import ReviewCard from '../components/Profile/ReviewCard'
+import LikeMovieCard from '../components/Profile/LikeMovieCard'
+import BarChart from '../components/Profile/BarChart'
+
+import AOS from 'aos'
+import 'aos/dist/aos.css'
+import { mapState } from 'vuex'
+
+AOS.init();
+
+export default {
+  name: 'UserProfile',
+  components: {
+    ReviewCard,
+    LikeMovieCard,
+    BarChart,
+  },
+  data () {
+    return {
+      thisUsername: this.$route.params.username,
+      isFollow: null,
+      dialog: false,
+      notifications: false,
+      sound: true,
+      widgets: false,
+    }
+  },
+  methods: {
+    follow () {
+      this.$store.dispatch('follow', this.thisUsername)
+    },
+    moveProfileUpdate () {
+      this.$router.push({ name: 'UserProfileUpdate', params: { username: this.loginUser.username }})
+    },
+    moveTimeline () {
+      this.$router.push({ name: 'TimeLine', params: { useranem: this.loginUser.username }})
+    },
+    moveCollection () {
+      this.$router.push({ name: 'UserCollection', params: { username: this.personData.username }})
+    },
+  },
+  computed: {
+    ...mapState([
+      'isLogin',
+      'personData',
+      'userReviews',
+      'loginUser',
+      'personFollowings',
+      'personFollowers',
+      'personFollowersUsername',
+      'chartdata',
+    ]),
+    profileBackImg () {
+      return {
+      };
+    }
+  },
+  created () {
+    this.$store.dispatch('getLoginUser')
+    this.$store.dispatch('getUser', this.thisUsername)
+    this.$store.dispatch('getPersonFollowings', this.thisUsername)
+    this.$store.dispatch('getPersonFollowers', this.thisUsername)
+  },
+  watch: {
+    $route () {
+      this.thisUsername = this.$route.params.username
+      this.$store.dispatch('getUser', this.thisUsername)
+      this.$store.dispatch('getPersonFollowings', this.thisUsername)
+      this.$store.dispatch('getPersonFollowers', this.thisUsername)
+    },
+    isLogin () {
+      this.$store.dispatch('getLoginUser')
+    }
+  }
+}
+</script>
+
+<style>
+.profile-image-box {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0px 4px 2px -2px rgb(0 0 0 / 20%), 0px 3px 3px 0px rgb(0 0 0 / 14%), 0px 2px 6px 0px rgb(0 0 0 / 12%);
+}
+
+.profile-description {
+  color: white;
+}
+
+.profile-description-t {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.profile-edit-btn {
+  font-size: 10px !important;
+  color: aqua !important;
+}
+
+.profile-page {
+  width: 75%;
+  padding-top: 0;
+}
+
+.profilepage-photo {
+  width: 110px !important;
+  height: 110px !important;
+}
+
+.profile-top {
+  font-size: 16px;
+  text-align: center;
+  color: white;
+  padding-top: 5px;
+  padding-bottom: 0px;
+}
+
+.edit-profile-btn {
+  text-decoration: none;
+  color: blueviolet !important;
+  font-size: 16px;
+}
+
+.profile-middle {
+  font-size: 20px;
+  text-align: center;
+  color: white;
+  padding-top: 5px;
+  padding-bottom: 0px;
+}
+
+.profile-collection-btn {
+  font-size: 20px;
+  font-weight: bold;
+  color: white !important;
+}
+
+.profile-collection-position {
+  padding-top: 50px;
+}
+
+.profile-follow {
+  font-size: 16px;
+  padding-top: 15px;
+}
+
+.follow-btn {
+  background: linear-gradient(to bottom right, #F83D3D, #B600EB);
+  color: white !important;
+  font-weight: bold;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.profile-bottom {
+  font-size: 12px;
+  text-align: center;
+  color: white;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.profile-bottom-title {
+  font-size: 16px;
+}
+
+.profile-bottom-review-title {
+  font-size: 12px;
+  margin-bottom: 0px;
+}
+
+.profile-back-img {
+  background-image: url('../assets/profile_back.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.v-application p {
+  margin-bottom: 0px;
+}
+
+.chart-part {
+  padding-top: 0 !important;
+}
+</style>
