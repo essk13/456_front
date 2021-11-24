@@ -105,7 +105,9 @@ export default {
   },
   watch: {
     isLogin () {
-      this.$store.dispatch('getLoginUser')
+      if (this.isLogin) {
+        this.$store.dispatch('getLoginUser')
+      }
     }
   },
   destroyed () {
