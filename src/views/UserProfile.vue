@@ -11,6 +11,11 @@
                 <img :src="`${personData.profile_photo}`" class="profile-image">
               </a>
             </div>
+            <div v-else class="profile-image-box">
+              <a>
+                <img src="@/assets/non_profile.png" class="profile-image">
+              </a>
+            </div>
           </v-col>
 
           <v-col cols="7" class="profile-description">
