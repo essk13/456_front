@@ -47,6 +47,7 @@ export default new Vuex.Store({
     chartdata: null,
     isChangePassword: false,
     userNum: null,
+    isSelect: false,
   },
   mutations: {
     ERR_MSG (state, err) {
@@ -483,6 +484,7 @@ export default new Vuex.Store({
     },
 
     selectGenre ({ dispatch, commit, state }, data) {
+      state.isSelect = true
       commit('SELECT_GENRE', data)
       axios({
         method: 'post',
@@ -495,7 +497,9 @@ export default new Vuex.Store({
           } else {
             commit('GET_MOVIES', res.data)
           }
+          state.isSelect = false
         })
+        .catch(() => state.isSelect = false)
     },
 
     likeMovie ({ dispatch }, data) {

@@ -3,7 +3,15 @@
     <v-container class="movie-page">
       <h2>Movie</h2>
       <movie-genre></movie-genre>
-      <v-row class="movie-cards">
+      <div v-if="isSelect" class="text-center mt-16">
+        <v-progress-linear
+          indeterminate
+          rounded
+          height="6"
+          color="pink lighten-1"
+        ></v-progress-linear>
+      </div>
+      <v-row v-else class="movie-cards">
           <movie-card 
             v-for="movie in movieList" 
             :key="movie.id"
@@ -69,6 +77,7 @@ export default {
     ...mapState([
       'movieList',
       'genreList',
+      'isSelect',
     ])
   },
   created () {
