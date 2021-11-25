@@ -97,8 +97,7 @@ export default {
   },
   created () {
     if (localStorage.getItem('JWT')) {
-      // this.$store.dispatch('getLoginUser')
-      this.$store.commit('LOGIN')
+      this.$store.dispatch('getLoginUser')
     } else {
       this.$router.push({ name: 'Login' }).catch(() => {})
     }
@@ -121,7 +120,6 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* text-align: center; */
   color: #2c3e50;
 }
 

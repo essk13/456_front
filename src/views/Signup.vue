@@ -113,12 +113,23 @@ export default {
     ...mapState([
       'errMsg',
       'isSignup',
+      'isLogin',
     ])
+  },
+  created () {
+    if (this.isLogin) {
+      this.$router.push({ name: 'Main' })
+    }
   },
   watch: {
     isSignup () {
       console.log('!')
       this.$router.push({ name: 'Login' })
+    },
+    isLogin () {
+      if (this.isLogin) {
+        this.$router.push({ name: 'Main' })
+      }
     }
   }
 }

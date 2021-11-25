@@ -85,6 +85,11 @@ export default {
       'isLogin',
     ])
   },
+  created () {
+    if (this.isLogin) {
+      this.$router.push({ name: 'Main' })
+    }
+  },
   watch: {
     isLogin () {
       if (this.isLogin) {

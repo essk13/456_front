@@ -1,6 +1,6 @@
 <template>
   <v-col cols="2">
-    <a @click.prevent="moveCollectionPage">
+    <a v-if="user" @click.prevent="moveCollectionPage">
       <v-hover v-slot:default="{ hover }">
         <v-card class="collection-card movie-card-poster">
           <v-row dense>
@@ -10,7 +10,7 @@
                 class="d-flex transition-fast-in-fast-out v-card--reveal white--text overflow-auto hover-cover"
                 style="height: 100%; border-radius: 5px;"
               >
-                <div>
+                <div v-if="user.username">
                   <p class="movie-card-title">{{ user.username }}</p>
                   <p class="movie-card-title"><v-icon>mdi-vote</v-icon> {{ likeCnt }}</p>
                 </div>
@@ -31,7 +31,7 @@
         </v-card>
       </v-hover>
 
-      <p class="collection-owner">{{ user.username }} 님의 컬렉션</p>
+      <p v-if="user.username" class="collection-owner">{{ user.username }} 님의 컬렉션</p>
       <div class="flex-l">
         <div class="vote-btn site_color">
           <v-icon color="grey lighten-5">mdi-vote</v-icon>

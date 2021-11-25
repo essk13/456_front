@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-container class="movie-page">
+    <v-container v-if="searchResult" class="movie-page">
       <h2>Result</h2>
       <h4 v-if="searchResult.length==0">검색결과가 없습니다</h4>
       <v-row class="movie-cards">

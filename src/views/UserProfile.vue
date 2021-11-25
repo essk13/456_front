@@ -1,5 +1,5 @@
 <template>
-  <v-container class="profile-page">
+  <v-container v-if="personData" class="profile-page">
     <v-row>
       <v-col
         cols="4"
@@ -54,8 +54,8 @@
 
             <div class="profile-follow">
               <span>
-                <p>팔로잉: {{ personFollowings.length }}</p>
-                <p>팔로워: {{ personFollowers.length }}</p>
+                <p v-if="personFollowings">팔로잉: {{ personFollowings.length }}</p>
+                <p v-if="personFollowers">팔로워: {{ personFollowers.length }}</p>
               </span>
             </div>
 
@@ -73,7 +73,7 @@
               <div class="vote-btn site_color">
                 <v-icon color="grey lighten-5" small>mdi-comment-text-multiple</v-icon>
               </div>
-              <p class="profile-like-cnt d-d ml-2 mr-3">{{ this.userReviews.length }}</p>
+              <p v-if="userReviews" class="profile-like-cnt d-d ml-2 mr-3">{{ this.userReviews.length }}</p>
             </div>
           </v-col>
 
@@ -200,9 +200,6 @@ export default {
     this.$store.dispatch('getUser', this.thisUsername)
     this.$store.dispatch('getPersonFollowings', this.thisUsername)
     this.$store.dispatch('getPersonFollowers', this.thisUsername)
-    this.likeCnt = this.userReviews.reduce((acc, review) => {
-      return acc + review.users_like.length
-    }, 0)
   },
   watch: {
     $route () {

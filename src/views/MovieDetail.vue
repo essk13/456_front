@@ -1,11 +1,12 @@
 <template>
   <v-container class="movie-detail-page">
     <v-parallax
+      v-if="backdropPath"
       class="barcdrop_path"
       :src="`https://www.themoviedb.org/t/p/original${backdropPath}`"
     ></v-parallax>
 
-    <div>
+    <div v-if="nowMovie">
       <v-row class="movie-detail-main">
         <v-col
           cols="2"
@@ -97,7 +98,7 @@
             <v-card class="mx-auto movie-detail-description">
               <span
                 v-for="crew in nowMovieCrew"
-                :key="crew.id"
+                :key="crew.credit_id"
               >
                 <div
                   class="d-group"
@@ -199,7 +200,7 @@
                   <div>
                     <div class="flex-bt">
                       <div class="flex-l">
-                        <p class="m-d-review-title d-d ml-2 r-simple-item">{{ review.title }} </p>
+                        <p class="m-d-review-title d-d ml-2 r-simple-item">{{ review.title }}</p>
                         <v-icon class="r-simple-item" small>
                           mdi-thumb-up
                         </v-icon>
@@ -248,7 +249,7 @@
             </iframe>
           </div>
 
-          <v-card class="mx-auto recommends">
+          <v-card v-if="recommendMovies" class="mx-auto recommends">
             <p class="recommends-title">추천 영화 목록</p>
             <v-row
               class="recommend-movies"
@@ -271,6 +272,10 @@
           </v-card>
         </v-col>
       </v-row>
+    </div>
+
+    <div v-else>
+      <h2>※ 해당 영화가 존재하지 않습니다 ※</h2>
     </div>
 
   </v-container>

@@ -49,6 +49,7 @@
     </v-row>
 
     <v-slide-group
+      v-if="trending"
       class="mt-3 top-rate-slide"
       multiple
       show-arrows

@@ -1,6 +1,7 @@
 <template>
   <v-container class="review-detail-page">
     <v-parallax
+      v-if="backdropPath"
       class="barcdrop_path"
       :src="`https://www.themoviedb.org/t/p/original${backdropPath}`"
     ></v-parallax>
@@ -10,7 +11,7 @@
         <v-col cols="10">
           <div class="review-detail-space"></div>
 
-          <v-card class="mx-auto movie-detail-review">
+          <v-card v-if="nowReview" class="mx-auto movie-detail-review">
             <div class="flex-bt">
               <div class="flex-l">
                 <p class="d-title">{{ nowReview.title }}</p>
@@ -66,7 +67,7 @@
                 </div>
               </div>
 
-              <div class="flex-l">
+              <div v-if="nowReview" class="flex-l">
                 <p class="mr-2 m-d-review-author">작성자</p>
                 <a class="d-d movie-card review-detail-author" @click.prevent="moveProfile">
                   <p>{{ nowReview.author.username }}</p>
@@ -74,12 +75,12 @@
               </div>
             </div>
 
-            <a class="d-d movie-card" @click.prevent="toMovieDetail">Movie title: {{ nowReview.movie.title }}</a>
+            <a v-if="nowReview" class="d-d movie-card" @click.prevent="toMovieDetail">Movie title: {{ nowReview.movie.title }}</a>
             <hr>
 
-            <p class="review-content">{{ nowReview.content }}</p>
+            <p v-if="nowReview" class="review-content">{{ nowReview.content }}</p>
 
-            <div class="flex-bt">
+            <div v-if="nowComments" class="flex-bt">
               <div class="flex-l">
                 <v-icon class="site-color-text">
                   mdi-comment-processing
@@ -114,7 +115,7 @@
           </v-card>
 
           <v-card class="mx-auto comment-area">
-            <review-comment :review="nowReview"></review-comment>
+            <review-comment v-if="nowReview" :review="nowReview"></review-comment>
             <comment-detail
               v-for="comment in nowComments"
               :key="comment.id"
@@ -125,7 +126,7 @@
         </v-col>
 
         <v-col cols="2">
-          <a @click.prevent="toMovieDetail">
+          <a v-if="nowMovie" @click.prevent="toMovieDetail">
             <img
               class="movie-detail-poster movie-card-poster"
               :src="`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${nowMovie.poster_path}`"

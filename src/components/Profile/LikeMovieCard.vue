@@ -2,7 +2,7 @@
   <v-col
     cols="2"
   >
-    <a class="movie-card" @click.prevent="moveReviewDetail"><div>
+    <a class="movie-card" @click.prevent="moveMovieDetail"><div>
       <v-hover v-slot:default="{ hover }">
         <v-img
           :src="`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${like_movie.poster_path}`"
@@ -35,8 +35,8 @@ export default {
     like_movie: Object,
   },
   methods: {
-    moveReviewDetail () {
-      this.$router.push({ name: 'ReviewDetail', params: { reviewId: this.review.id }})
+    moveMovieDetail () {
+      this.$router.push({ name: 'MovieDetail', params: { movieId: this.like_movie.id }})
     }
   }
 }

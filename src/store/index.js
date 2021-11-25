@@ -14,7 +14,7 @@ export default new Vuex.Store({
     errMsg: null,
     isLogin: false,
     loginUser: {username: '--'},
-    movieList: null,
+    movieList: [],
     isSignup: false,
     genreList: null,
     nowMovie: null,
@@ -92,6 +92,7 @@ export default new Vuex.Store({
       state.nowReview = data
     },
     GET_LOGIN_USER (state, data) {
+      state.isLogin = true
       state.loginUser = data
     },
     GET_USER (state, data) {
@@ -195,6 +196,7 @@ export default new Vuex.Store({
     signup ({ commit }) {
       commit('SIGN_UP')
     },
+
     login ({ commit }, data) {
       axios({
         method: 'post',
@@ -202,85 +204,73 @@ export default new Vuex.Store({
         data: data,
       })
         .then(res => {
-          console.log(res)
           localStorage.setItem('JWT', res.data.access)
           commit('LOGIN', data)
         })
         .catch(err => {
-          console.log(err)
           commit('ERR_MSG', err)
         })
     },
+
     logout({ commit }) {
       localStorage.removeItem('JWT')
       commit('LOGOUT')
     },
+
     getMovies({ commit }) {
       axios({
         method: 'get',
         url:`${SERVER_URL}/movies/movie_list/`,
       })
         .then(res => {
-          console.log(res)
           commit('GET_MOVIES', res.data)
         })
-        .catch(err => {
-          console.log(err)
-        })
     },
+
     getGenres({ commit }) {
       axios({
         method: 'get',
         url:`${SERVER_URL}/movies/genre_list/`,
       })
         .then(res => {
-          console.log(res)
           commit('GET_GENRES', res.data)
         })
-        .catch(err => {
-          console.log(err)
-        })
     },
+
     getMovieDetail ({ commit, dispatch }, data) {
       axios({
         method: 'get',
         url:`${SERVER_URL}/movies/${data}/`,
       })
         .then(res => {
-          console.log(res)
           commit('GET_MOVIE_DETAIL', res.data)
           dispatch('getRecommendMovies', res.data.genres[0].id)
         })
-        .catch(err => console.log(err))
     },
+
     getMovieCredits ({ commit }, data) {
       axios({
         method: 'get',
         url: `${API_URL}/movie/${data}/credits?api_key=${API_KEY}&language=ko-KR`
       })
         .then(res => {
-          console.log(res)
           commit('GET_MOVIE_CREDITS', res.data)
         })
     },
+
     getReviews ({ commit }) {
       axios({
         method: 'get',
         url: `${SERVER_URL}/community/`
       })
        .then(res => {
-         console.log(res)
          commit('GET_REVIEWS', res.data)
        })
-       .catch(err => {
-         console.log(err)
-       })
     },
+
     createReview ({ dispatch, commit }, data) {
       const id = data.movieId
       delete data.movieId
-      console.log(data)
-      
       axios({
         method: 'post',
         url: `${SERVER_URL}/community/${id}/create_review/`,
@@ -289,30 +279,24 @@ export default new Vuex.Store({
           Authorization: `Bearer ${localStorage.getItem('JWT')}`
         }
       })
-        .then(res => {
-          console.log(res)
+        .then(() => {
           commit('CREATE_REVIEW')
           dispatch('getMovieDetail', id)
         })
-        .catch(err => {
-          console.log(err)
-        })
     },
+
     getReviewDetail ({ commit, dispatch }, data) {
       axios({
         method: 'get',
         url: `${SERVER_URL}/community/${data}`
       })
         .then(res => {
-          console.log(res)
           commit('GET_REVIEW_DETAIL', res.data)
           dispatch('getMovieDetail', res.data.movie.id)
           dispatch('getBackdropPath', res.data.movie.id)
         })
-        .catch(err => {
-          console.log(err)
-        })
     },
+
     getLoginUser ({ commit }) {
       axios({
         method: 'get',
@@ -322,11 +306,10 @@ export default new Vuex.Store({
         }
       })
         .then(res => {
-          console.log(res)
           commit('GET_LOGIN_USER', res.data)
         })
-        .catch(err => console.log(err))
     },
+
     createComment ({ commit, dispatch }, data) {
       const id = data.reviewId
       delete data.reviewId
@@ -338,39 +321,34 @@ export default new Vuex.Store({
           Authorization: `Bearer ${localStorage.getItem('JWT')}`
         }
       })
-        .then(res => {
-          console.log(res)
+        .then(() => {
           commit('CREATE_COMMENT')
           dispatch('getComments', id)
         })
-        .catch(err => {
-          console.log(err)
-        })
     },
+
     getUser ({ commit, dispatch }, data) {
       axios({
         method: 'get',
         url: `${SERVER_URL}/accounts/${data}/profile/`,
       })
         .then(res => {
-          console.log(res)
           commit('GET_USER', res.data)
           dispatch('getUserReviews', res.data.username)
           dispatch('getChartData', res.data.username)
         })
-        .catch(err => console.log(err))
     },
+
     getUserReviews ({ commit }, data) {
       axios({
         method: 'get',
         url: `${SERVER_URL}/accounts/${data}/user_reviews/`,
       })
         .then(res => {
-          console.log(res)
           commit('GET_USER_REVIEWS', res.data)
         })
-        .catch(err => console.log(err))
     },
+
     reviewDelete ({ commit }, data) {
       axios({
         method: 'delete',
@@ -379,14 +357,11 @@ export default new Vuex.Store({
           Authorization: `Bearer ${localStorage.getItem('JWT')}`
         }
       })
-        .then(res => {
-          console.log(res)
+        .then(() => {
           commit('REVIEW_DELETE')
         })
-        .catch(err => {
-          console.log(err)
-        })
     },
+
     updateReview ({ commit }, data) {
       const id = data.reviewId
       delete data.reviewId
@@ -398,49 +373,41 @@ export default new Vuex.Store({
           Authorization: `Bearer ${localStorage.getItem('JWT')}`
         }
       })
-      .then(res => {
-        console.log(res)
+      .then(() => {
         commit('REVIEW_UPDATE')
       })
-      .catch(err => {
-        console.log(err)
-      })
     },
+
     getComments ({ commit }, data) {
       axios({
         method: 'get',
         url: `${SERVER_URL}/community/${data}/comment_load/`,
       })
         .then(res => {
-          console.log(res)
           commit('GET_COMMENTS', res.data)
         })
-        .catch(err => {
-          console.log(err)
-        })
     },
+
     getPersonFollowings ({ commit }, data) {
       axios({
         method: 'get',
         url: `${SERVER_URL}/accounts/${data}/user_followings/`,
       })
         .then(res => {
-          console.log(res)
           commit('GET_PERSON_FOLLOWGINS', res.data)
         })
-        .catch(err => console.log(err))
     },
+
     getPersonFollowers ({ commit }, data) {
       axios({
         method: 'get',
         url: `${SERVER_URL}/accounts/${data}/user_followers/`,
       })
       .then(res => {
-        console.log(res)
         commit('GET_PERSON_FOLLOWERS', res.data)
       })
-      .catch(err => console.log(err))
     },
+
     follow ( { commit, dispatch }, data ) {
       axios({
         method: 'post',
@@ -449,13 +416,12 @@ export default new Vuex.Store({
           Authorization: `Bearer ${localStorage.getItem('JWT')}`
         }
       })
-      .then(res => {
-        console.log(res)
+      .then(() => {
         commit('FOLLOW')
         dispatch('getPersonFollowers', data)
       })
-      .catch(err => console.log(err))
     },
+
     commentDelete ({ dispatch }, data) {
       const reviewId = data[0]
       const commentId = data[1]
@@ -466,14 +432,11 @@ export default new Vuex.Store({
           Authorization: `Bearer ${localStorage.getItem('JWT')}`
         }
       })
-        .then(res => {
-          console.log(res)
+        .then(() => {
           dispatch('getComments', reviewId)
         })
-        .catch(err => {
-          console.log(err)
-        })
     },
+
     commentUpdate ({ dispatch }, data) {
       const reviewId = data[0]
       const commentId = data[1]
@@ -486,14 +449,11 @@ export default new Vuex.Store({
           Authorization: `Bearer ${localStorage.getItem('JWT')}`
         }
       })
-        .then(res => {
-          console.log(res)
+        .then(() => {
           dispatch('getComments', reviewId)
         })
-        .catch(err => {
-          console.log(err)
-        })
     },
+
     likeReview ({ dispatch }, data) {
       axios({
         method: 'post',
@@ -502,14 +462,11 @@ export default new Vuex.Store({
           Authorization: `Bearer ${localStorage.getItem('JWT')}`
         }
       })
-        .then(res => {
-          console.log(res)
+        .then(() => {
           dispatch('getReviewDetail', data)
         })
-        .catch(err => {
-          console.log(err)
-        })
     },
+
     likeComment ({ dispatch }, data) {
       const reviewId = data[0]
       const commentId = data[1]
@@ -520,14 +477,11 @@ export default new Vuex.Store({
           Authorization: `Bearer ${localStorage.getItem('JWT')}`
         }
       })
-        .then(res => {
-          console.log(res)
+        .then(() => {
           dispatch('getComments', reviewId)
         })
-        .catch(err => {
-          console.log(err)
-        })
     },
+
     selectGenre ({ dispatch, commit, state }, data) {
       commit('SELECT_GENRE', data)
       axios({
@@ -536,17 +490,14 @@ export default new Vuex.Store({
         data: state.selectedGenres,
       })
         .then(res => {
-          console.log(res)
           if (state.selectedGenres.length === 0) {
             dispatch('getMovies')
           } else {
             commit('GET_MOVIES', res.data)
           }
         })
-        .catch(err => {
-          console.log(err)
-        })
     },
+
     likeMovie ({ dispatch }, data) {
       axios({
         method: 'post',
@@ -555,60 +506,51 @@ export default new Vuex.Store({
           Authorization: `Bearer ${localStorage.getItem('JWT')}`
         }
       })
-        .then(res => {
-          console.log(res)
+        .then(() => {
           dispatch('getMovieDetail', data)
         })
-        .catch(err => {
-          console.log(err)
-        })
     },
+
     getDayTrending ({ commit }) {
       axios({
         method: 'get',
         url: `${API_URL}/trending/movie/day?api_key=${API_KEY}&language=ko-KR`
       })
         .then(res => {
-          console.log(res)
           commit('GET_TRENDING', res.data)
         })
-        .catch(err => console.log(err))
     },
+
     getWeekTrending ({ commit }) {
       axios({
         method: 'get',
         url: `${API_URL}/trending/movie/week?api_key=${API_KEY}&language=ko-KR`
       })
         .then(res => {
-          console.log(res)
           commit('GET_TRENDING', res.data)
         })
-        .catch(err => console.log(err))
     },
+
     getTopRate ({ commit }) {
       axios({
         method: 'get',
         url: `${API_URL}/movie/top_rated?api_key=${API_KEY}&language=ko-KR&page=1`
       })
         .then(res => {
-          console.log(res)
           commit('GET_TOP_RATE', res.data)
         })
-        .catch(err => console.log(err))
     },
+
     searchKeyword ({ commit }, data) {
       axios({
         method: 'get',
         url: `${SERVER_URL}/movies/${data}/search_movie/`,
       })
         .then(res => {
-          console.log(res)
           commit('SEARCH_KEYWORD', res.data)
         })
-        .catch(err => {
-          console.log(err)
-        })
     },
+
     movieWorldCup ({ commit }) {
       axios({
         method: 'get',
@@ -618,16 +560,14 @@ export default new Vuex.Store({
         }
       })
         .then(res => {
-          console.log(res)
           commit('WORLD_CUP', res.data)
         })
-        .catch(err => {
-          console.log(err)
-        })
     },
+
     winnerMovie ({ commit }, data) {
       commit('WINNER_MOVIE', data)
     },
+
     nextStage ({ commit, state }) {
       if (state.winnerMovies.length===1) {
         alert(state.winnerMovies[0].title)
@@ -639,16 +579,11 @@ export default new Vuex.Store({
             Authorization: `Bearer ${localStorage.getItem('JWT')}`
           }
         })
-          .then(res => {
-            console.log(res)
-          })
-          .catch(err => {
-            console.log(err)
-          })
       } else {
         commit('NEXT_STAGE')
       }
     },
+
     profileUpdate ({ dispatch }, data) {
       axios({
         method: 'put',
@@ -658,14 +593,11 @@ export default new Vuex.Store({
           Authorization: `Bearer ${localStorage.getItem('JWT')}`
         },
       })
-        .then(res => {
-          console.log(res)
+        .then(() => {
           dispatch('getLoginUser')
         })
-        .catch(err => {
-          console.log(err)
-        })
     },
+
     getLottery ({ commit, state } ) {
       if (state.isLogin) {
         axios({
@@ -676,11 +608,7 @@ export default new Vuex.Store({
           },
         })
           .then(res => {
-            console.log(res)
             commit('GET_LOTTERY_LOGIN', res.data)
-          })
-          .catch(err => {
-            console.log(err)
           })
       } else {
         axios({
@@ -688,75 +616,62 @@ export default new Vuex.Store({
           url: `${SERVER_URL}/algo/lottery/`,
         })
           .then(res => {
-            console.log(res)
             commit('GET_LOTTERY_UNLOGIN', res.data)
-          })
-          .catch(err => {
-            console.log(err)
           })
       }
     },
+
     getBackdropPath ({ commit }, data) {
       axios({
         method: 'get',
         url: `https://api.themoviedb.org/3/movie/${data}?api_key=${API_KEY}&language=ko-KR`,
       })
         .then(res => {
-          console.log(res)
           commit('GET_BACKDROP_PATH', res.data)
         })
-        .catch(err => console.log(err))
     },
+
     getVideoId ({ commit }, data) {
       axios({
         method: 'get',
         url: `https://api.themoviedb.org/3/movie/${data}/videos?api_key=${API_KEY}&language=ko-KR`,
       })
         .then(res => {
-          console.log(res)
           commit('GET_VIDEO_ID', res.data.results[0])
         })
-        .catch(err => console.log(err))
     },
+
     getRecommendMovies ({ commit }, data) {
-      console.log(data)
       axios({
         method: 'get',
         url: `${SERVER_URL}/movies/${data}/genre_recommend/`,
       })
         .then(res => {
-          console.log(res)
           commit('GET_RECOMMEND_MOVIES', res.data)
         })
-        .catch(err => console.log(err))
     },
+
     getChartData ({ commit }, data) {
       axios({
         method: 'get',
         url: `${SERVER_URL}/accounts/${data}/chart_data/`,
       })
         .then(res => {
-          console.log(res)
           commit('GET_CHART_DATA', res.data)
         })
-        .catch(err => {
-          console.log(err)
-        })
     },
+
     changePassword ({ commit }, data) {
       const username = data.username
       delete data.username
-      console.log(data)
       axios({
         method: 'put',
         data: data,
         url: `${SERVER_URL}/accounts/${username}/password_chg/`,
       })
-        .then(res => {
-          console.log(res)
+        .then(() => {
           commit('CHANGE_PASSWORD')
-      })
-        .catch(err => console.log(err))
+        })
     }
   },
 })

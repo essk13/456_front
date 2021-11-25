@@ -8,12 +8,13 @@
     </v-row>
 
     <v-slide-group
+      v-if="topRate"
       multiple
       show-arrows
     >
       <v-slide-item
         v-for="movie in topRate"
-        :key="movie.id"
+        :key="movie.title"
       >
         <v-hover v-slot:default="{ hover }">
           <a @click.prevent="moveMovieDetail(movie.id)">

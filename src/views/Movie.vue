@@ -46,19 +46,19 @@ export default {
       axios.get(`${SERVER_URL}/movies/movie_list/?page=${this.loadNum}`, {
       })
        .then(res => {
-        //  console.log(res)
           setTimeout(() => {
             const data = res.data
+            $state.loaded()
             for (let i = 0; i < 18; i++){
-              // this.movies.push(data[i])
               this.$store.commit('GET_MORE_MOVIES', data[i])
               this.loadNum++
-            $state.loaded()
+              if (i == 18) {
+                $state.complete()
+              }
             }
            }, 1000)
        })
-       .catch(err => {
-         console.log(err)
+       .catch(() => {
          alert('에러')
          localStorage.clear()
          this.$router.push('/')

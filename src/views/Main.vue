@@ -3,6 +3,7 @@
     <div class="main-video-cover"></div>
     <div class="main-video-cover-white"></div>
     <iframe
+      v-if="videoId"
       class="video-player main-video"
       type="text/html"
       :src="`https://www.youtube.com/embed/${videoId.key}?autoplay=1&mute=1&loop=1&playlist=${videoId.key}`"
@@ -13,7 +14,7 @@
     >
     </iframe>
 
-    <div class="main-movie">
+    <div v-if="trending" class="main-movie">
       <p class="main-movie-title">{{ trending[0].title }}</p>
       <p class="main-movie-overview d-d">{{ trending[0].overview | truncate }}</p>
     </div>

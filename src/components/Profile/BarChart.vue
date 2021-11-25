@@ -56,20 +56,11 @@ export default {
     ])
   },
   created () {
-    console.log(this.personData.username)
     this.$store.dispatch('getChartData', this.personData.username)
-    console.log(this.chartdata)
-  },
-  mounted() {
-    console.log(this.chartdata)
-    const canvas = this.$refs.canvas.getContext('2d')
-    console.log(canvas)
   },
   watch: {
     chartdata () {
-      console.log(this.cdata)
       this.cdata = this.chartdata
-      console.log(this.cdata)
       this.datacollection['datasets'][0]['data'] = this.cdata
       this.renderChart(this.datacollection, this.options)
     },

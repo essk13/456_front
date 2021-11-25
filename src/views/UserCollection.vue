@@ -1,5 +1,5 @@
 <template>
-  <v-container class="collection-page">
+  <v-container v-if="personData" class="collection-page">
     <h3><a @click.prevent="moveUserProfile">{{ personData.username }}</a>'s 컬렉션</h3>
     <v-row class="collections">
       <review-card
