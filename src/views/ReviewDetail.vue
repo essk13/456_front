@@ -218,6 +218,7 @@ export default {
 .review-content {
   margin-top: 10px;
   font-size: 16px;
+  white-space: pre-line;
 }
 
 .comment-area {

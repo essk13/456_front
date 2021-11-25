@@ -101,7 +101,7 @@ export default {
     ])
   },
   created () {
-    this.$store.dispatch('getReviewDetail', this.reviewId)
+    this.$store.dispatch('getReviewDetail', this.nowReview.id)
     this.context.title = this.nowReview.title
     this.context.content = this.nowReview.content
     this.context.rank = this.nowReview.rank
