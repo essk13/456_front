@@ -38,6 +38,7 @@
               <p class="account-q">you don't have account?</p>
               <v-btn class="move-signup-btn" text @click="moveSignUp">create accout</v-btn>
             </div>
+            <p>※ 해당 서비스는 반응형 및 모바일을 지원하지 않습니다 ※</p>
           </div>
         </div>
       </v-col>
