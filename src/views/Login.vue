@@ -73,7 +73,6 @@ export default {
     },
     forgotPassword () {
       alert('명함을 잃어버린 사람은 출입하실 수 없습니다\n명함을 새로 발급받으세요')
-      this.$router.push({ name: 'PasswordChange' })
     },
     moveSignUp () {
       this.$router.push({ name: 'Signup' })
