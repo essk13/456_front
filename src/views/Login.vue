@@ -19,13 +19,18 @@
 
             <div>
               <v-text-field
-                label="Password"
                 outlined
                 dense
-                type="password"
-                autocomplete="off"
-                v-model.trim="credentials.password"
+                :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+                :rules="[rules.required, rules.min]"
+                :type="show2 ? 'text' : 'password'"
+                name="input-10-2"
+                label="Password"
+                hint="At least 8 characters"
+                class="input-group--focused"
+                v-model="credentials.password"
                 @keyup.enter="login"
+                @click:append="show2 = !show2"
               ></v-text-field>
             </div>
 
@@ -65,6 +70,12 @@ export default {
       credentials: {
         username: null,
         password: null,
+      },
+      show2: false,
+      password: 'Password',
+      rules: {
+        required: value => !!value || 'Required.',
+        min: v => v.length >= 8 || 'password는 최소 8자 이상입니다',
       }
     }
   },
